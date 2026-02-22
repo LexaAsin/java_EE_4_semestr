@@ -6,9 +6,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
-@WebServlet("/PersonsServlet")
+@WebServlet("/persons")
 public class PersonsServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -16,19 +15,17 @@ public class PersonsServlet extends HttpServlet {
         super();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html");
-        PrintWriter writer = response.getWriter();
-        try {
-            writer.println("<h2>Привет PersonsServlet</h2>");
-        } finally {
-            writer.close();
-        }
+        // Перенаправляем запрос на JSP-страницу
+        request.getRequestDispatcher("/person.jsp").forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Если форма отправлена POST — пока делаем то же, что и GET
         doGet(request, response);
     }
 }
