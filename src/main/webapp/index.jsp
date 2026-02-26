@@ -4,32 +4,19 @@
 <head>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <meta charset="UTF-8">
-    <title>Главная страница</title>
+    <title>Библиотека</title>
 </head>
 <body>
-    <header>
-        <a href="/persons/">
-            <img alt="Логотип" id="top-image" src="images/employees.png">
-        </a>
-        <div id="user-panel">
-            <h1>Управление персоналом</h1>
-        </div>
-    </header>
-
+    <jsp:include page="/WEB-INF/jspf/header.jsp" />
     <div id="main">
         <h2>Функции системы</h2>
         <nav>
             <ul>
-                <li><a href="persons">Сотрудники</a></li>
-                <li><a href="roles">Должности</a></li>
+                <li><a href="authors">Авторы</a></li>
+                <li><a href="books">Книги</a></li>
             </ul>
         </nav>
     </div>
-
-    <footer>
-        <div>
-            <span>Тестовое приложение JAVA EE</span>
-        </div>
-    </footer>
+    <jsp:include page="/WEB-INF/jspf/footer.jsp" />
 </body>
 </html>

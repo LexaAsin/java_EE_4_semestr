@@ -7,12 +7,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/roles")
-public class RoleServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-
+@WebServlet("/test")
+public class TestServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/roles.jsp").forward(request, response);
+        response.getWriter().println("Test OK");
     }
 }
