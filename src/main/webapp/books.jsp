@@ -33,6 +33,22 @@
                 </tr>
             </c:forEach>
         </table>
+        
+        <h3>Добавить новую книгу</h3>
+        <form method="POST" action="books">
+            <input type="text" name="title" placeholder="Название" required>
+            <input type="text" name="binding" placeholder="Переплёт">
+            <input type="text" name="publisher" placeholder="Издательство">
+            <input type="number" name="year" placeholder="Год">
+            <input type="text" name="genre" placeholder="Жанр">
+            <select name="authorId" required>
+                <option value="">Выберите автора</option>
+                <c:forEach var="author" items="${authors}">
+                    <option value="${author.id}">${author.fullName}</option>
+                </c:forEach>
+            </select>
+            <button type="submit">Добавить книгу</button>
+        </form>
     </div>
     <jsp:include page="/WEB-INF/jspf/footer.jsp" />
 </body>

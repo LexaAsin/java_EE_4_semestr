@@ -29,6 +29,15 @@
                 </tr>
             </c:forEach>
         </table>
+        
+        <h3>Добавить нового автора</h3>
+        <form method="POST" action="authors">
+            <input type="text" name="fullName" placeholder="ФИО" required>
+            <input type="text" name="phone" placeholder="Телефон">
+            <input type="email" name="email" placeholder="Email">
+            <input type="number" step="0.1" name="rating" placeholder="Рейтинг">
+            <button type="submit">Добавить автора</button>
+        </form>
     </div>
     <jsp:include page="/WEB-INF/jspf/footer.jsp" />
 </body>

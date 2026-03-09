@@ -3,6 +3,7 @@ package controller;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class BookServlet extends HttpServlet {
     String selectAllBooks = "SELECT b.id, b.title, b.binding, b.publisher, b.year, b.genre, b.author_id, "
                           + "a.full_name, a.phone, a.email, a.rating "
                           + "FROM books b LEFT JOIN authors a ON b.author_id = a.id";
+    String insertBook = "INSERT INTO books(title, binding, publisher, year, genre, author_id) VALUES(?, ?, ?, ?, ?, ?)";
     ArrayList<Book> books = new ArrayList<>();
     ArrayList<Author> authors = new ArrayList<>();
     String userPath;
@@ -56,7 +58,6 @@ public class BookServlet extends HttpServlet {
         try (Connection conn = builder.getConnection()) {
             Statement stmt = conn.createStatement();
 
-            // Загружаем авторов (с перекодировкой)
             ResultSet rsAuthors = stmt.executeQuery("SELECT id, full_name, phone, email, rating FROM authors");
             if (rsAuthors != null) {
                 authors.clear();
@@ -77,7 +78,6 @@ public class BookServlet extends HttpServlet {
                 request.setAttribute("authors", authors);
             }
 
-            // Загружаем книги (с перекодировкой)
             ResultSet rsBooks = stmt.executeQuery(selectAllBooks);
             if (rsBooks != null) {
                 books.clear();
@@ -127,8 +127,47 @@ public class BookServlet extends HttpServlet {
         }
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doGet(request, response);
+        
+        request.setCharacterEncoding("UTF-8");
+        
+        String title = request.getParameter("title");
+        String binding = request.getParameter("binding");
+        String publisher = request.getParameter("publisher");
+        String yearStr = request.getParameter("year");
+        String genre = request.getParameter("genre");
+        String authorIdStr = request.getParameter("authorId");
+        
+        Integer year = 0;
+        if (yearStr != null && !yearStr.isEmpty()) {
+            year = Integer.parseInt(yearStr);
+        }
+        
+        Long authorId = null;
+        if (authorIdStr != null && !authorIdStr.isEmpty()) {
+            authorId = Long.parseLong(authorIdStr);
+        }
+        
+        EmpConnBuilder builder = new EmpConnBuilder();
+        
+        try (Connection conn = builder.getConnection();
+             PreparedStatement ps = conn.prepareStatement(insertBook)) {
+            
+            ps.setString(1, title);
+            ps.setString(2, binding);
+            ps.setString(3, publisher);
+            ps.setInt(4, year);
+            ps.setString(5, genre);
+            ps.setLong(6, authorId);
+            
+            ps.executeUpdate();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        response.sendRedirect("books");
     }
 }
