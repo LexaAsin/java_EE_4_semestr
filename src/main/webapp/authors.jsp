@@ -6,6 +6,8 @@
     <meta charset="UTF-8">
     <title>Авторы</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 <body>
     <jsp:include page="/WEB-INF/jspf/header.jsp" />
@@ -18,6 +20,8 @@
                 <th>Телефон</th>
                 <th>Email</th>
                 <th>Рейтинг</th>
+                <th scope="col">Редактировать</th>
+				<th scope="col">Удалить</th>
             </tr>
             <c:forEach var="author" items="${authors}">
                 <tr>
@@ -26,6 +30,18 @@
                     <td>${author.phone}</td>
                     <td>${author.email}</td>
                     <td>${author.rating}</td>
+                    <td width="20">
+					    <a href="<c:url value='/editAuthor?id=${author.id}' />" 
+					       class="btn btn-outline-primary btn-sm">
+					        <img src="images/icon-edit.png" alt="Ред." width="16">
+					    </a>
+					</td>
+					<td width="20">
+					    <a href="<c:url value='/deleteAuthor?id=${author.id}' />" 
+					       class="btn btn-outline-primary btn-sm">
+					        <img src="images/icon-delete.png" alt="Уд." width="16">
+					    </a>
+					</td>
                 </tr>
             </c:forEach>
         </table>
